@@ -20,11 +20,13 @@ Vivado 2023.1
 
 # Logic Diagram
 
-https://www.tutorialspoint.com/digital-electronics/images/4-1-multiplexer-circuit-diagram.jpg
+<img width="614" height="424" alt="Screenshot 2026-02-11 195225" src="https://github.com/user-attachments/assets/03cabe3f-914c-4163-bea7-2ba5257ed5a7" />
+
 
 # Truthtable 
 
-"C:\Users\HP\Pictures\Screenshots\Screenshot 2026-02-11 194234.png"
+<img width="496" height="376" alt="Screenshot 2026-02-11 194234" src="https://github.com/user-attachments/assets/3530b20d-cc75-480c-bc14-d10b21a36376" />
+
 
 # Verilog Code
 4:1 MUX Gate-Level Implementation
