@@ -31,166 +31,156 @@ Vivado 2023.1
 # Verilog Code
 4:1 MUX Gate-Level Implementation
 ```
-// Gate Level Modelling - Skeleton
-module mux4_gate (
-    input  wire I0, I1, I2, I3,
-    input  wire S0, S1,
-    output wire Y
-);
-    // Declare internal wires
-
-    // Write NOT gates
-
-    // Write AND gates
-
-    // Write OR gate
-
+module mux_4_1_gl(A,B,C,D,S1,S2,Y);
+    input A,B,C,D,S1,S2;
+    output Y;
+    wire p,q,w1,w2,w3,w4;
+    not (p,S1);
+    not (q,S2);
+    and (w1,A,p,q);
+    and (w2,B,p,S2);
+    and (w3,C,S1,q);
+    and (w4,D,S1,S2);
+    or (Y,w1,w2,w3,w4);    
 endmodule
 ```
 4:1 MUX Gate-Level Implementation- Testbench
-```
-// Testbench Skeleton
-`timescale 1ns/1ps
-module tb_mux4_gate;
+````
+`timescale 1ns / 1ps
 
-    // Declare testbench signals
-    reg I0, I1, I2, I3;
-    reg S0, S1;
-    wire Y;
+module mux_4_1_tb;
 
-    // Instantiate DUT
-    mux4_gate uut (
-        .I0(I0), .I1(I1), .I2(I2), .I3(I3),
-        .S0(S0), .S1(S1),
-        .Y(Y)
-    );
+    reg a,b,c,d;
+    reg s1,s2;
+    wire y;
 
-    initial begin
-        // Initialize inputs
+    mux_4_1_gl dut (a,b,c,d,s1,s2,y);
 
-        // Apply test cases
-
-        // Stop simulation
-        #10 $stop;
+    initial 
+    begin
+        a=1'b0;
+        b=1'b0;
+        c=1'b1;
+        d=1'b0;
+        s2=1'b1;
+        s1=1'b0;
+    #100
+        a=1'b1;
+        b=1'b0;
+        c=1'b0;
+        d=1'b1;
+        s2=1'b1;
+        s1=1'b1;
     end
 
 endmodule
-```
+````
 # Simulated Output Gate Level Modelling
-______ Here Paste the Simulated output ___________
+
+
 
 4:1 MUX Data flow Modelling
 ```
-// Dataflow Modelling - Skeleton
-module mux4_dataflow (
-    input  wire I0, I1, I2, I3,
-    input  wire S0, S1,
-    output wire Y
-);
-    // Write assign statement using operators
-
+module mux_4_1_df(a,b,c,d,s1,s0,y);
+    input a,b,c,d,s1,s0;
+    output y;
+    
+    assign y =   (s1 == 0 && s0 == 0) ? a:
+                 (s1 == 0 && s0 == 1) ? b:
+                 (s1 == 1 && s0 == 0) ? c: 
+                 (s1 == 1 && s0 == 1) ? d: 1'b0;
+                                         
 endmodule
 ```
 4:1 MUX Data flow Modelling- Testbench
 ```
-// Testbench Skeleton
-`timescale 1ns/1ps
-module tb_mux4_dataflow;
+`timescale 1ns / 1ps
 
-    // Declare testbench signals
-    reg I0, I1, I2, I3;
-    reg S0, S1;
-    wire Y;
+module mux_4_1_tb;
 
-    // Instantiate DUT
-    mux4_dataflow uut (
-        .I0(I0), .I1(I1), .I2(I2), .I3(I3),
-        .S0(S0), .S1(S1),
-        .Y(Y)
-    );
+    reg a,b,c,d;
+    reg s1,s0;
+    wire y;
 
-    initial begin
-        // Initialize inputs
+    mux_4_1_df dut (a,b,c,d,s1,s0,y);
 
-        // Apply test cases
-
-        // Stop simulation
-        #10 $stop;
+    initial 
+    begin
+        a=1'b0;
+        b=1'b1;
+        c=1'b1;
+        d=1'b0;
+        s1=1'b0;
+        s0=1'b1;
+    #100
+        a=1'b1;
+        b=1'b0;
+        c=1'b0;
+        d=1'b1;
+        s1=1'b1;
+        s0=1'b1;
     end
 
 endmodule
+
 ```
 # Simulated Output Dataflow Modelling
-_______ Here Paste the Simulated output ___________
+
+
 
 4:1 MUX Behavioral Implementation
 ```
-module mux4_to_1_behavioral (
-    input wire A,
-    input wire B,
-    input wire C,
-    input wire D,
-    input wire S0,
-    input wire S1,
-    output reg Y
-);
-    always @(*) begin
-        
+module mux_4_1_bhv(a,b,c,d,s,y);
+    input a,b,c,d;
+    input [1:0] s;
+    output reg y;
+    always @(*) 
+    begin
+        case (s)
+            2'b00: y = a;
+            2'b01: y = b;
+            2'b10: y = c;
+            2'b11: y = d;
+            default: y = 1'b0;
+        endcase
     end
 endmodule
 ```
 #4:1 MUX Behavioral Modelling- Testbench
 ```
-// Testbench Skeleton
-`timescale 1ns/1ps
-module tb_mux4_behavioral;
+`timescale 1ns / 1ps
 
-    // Declare testbench signals
-    reg I0, I1, I2, I3;
-    reg S0, S1;
-    wire Y;
+module mux_4_1_tb;
 
-    // Instantiate DUT
-    mux4_behavioral uut (
-        .I0(I0), .I1(I1), .I2(I2), .I3(I3),
-        .S0(S0), .S1(S1),
-        .Y(Y)
-    );
+    reg a,b,c,d;
+    reg [1:0] s;
+    wire y;
 
-    initial begin
-        // Initialize inputs
+    mux_4_1_bhv dut (a,b,c,d,s,y);
 
-        // Apply test cases
-
-        // Stop simulation
-        #10 $stop;
+    initial 
+    begin
+        a=1'b0;
+        b=1'b1;
+        c=1'b1;
+        d=1'b0;
+        s=2'b01;
+    #100
+        a=1'b1;
+        b=1'b0;
+        c=1'b0;
+        d=1'b1;
+        s=2'b11;
     end
 
 endmodule
 ```
 # Simulated Output Behavioral Modelling
-_______ Here Paste the Simulated output ___________
+
 
 #4:1 MUX Structural Implementation
 ```
-module mux2_to_1 (
-    input wire A,
-    input wire B,
-    input wire S,
-    output wire Y
-);
-    assign Y = S ? B : A;
-endmodule
 
-module mux4_to_1_structural (
-    input wire A,
-    input wire B,
-    input wire C,
-    input wire D,
-    input wire S0,
-    input wire S1,
-    output wire Y
-);
 ```
 # Testbench Implementation
 ```
